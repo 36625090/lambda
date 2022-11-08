@@ -6,10 +6,4 @@
 
 package lambda
 
-type Stringer interface {
-	String() string
-}
-
 type Any any
-
-type Value any

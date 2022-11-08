@@ -7,7 +7,7 @@
 package lambda
 
 import (
-	"fmt"
+	"log"
 	"testing"
 )
 
@@ -16,38 +16,21 @@ type User struct {
 	Name string
 }
 
+func (u User) HashCode() int {
+	return u.Id
+}
+
 func TestStream(t *testing.T) {
 	users := []User{
-		{Id: 1, Name: "a"}, {Id: 1, Name: "b"}, {Id: 3, Name: "b"}, {Id: 4, Name: "x"},
+		{Id: 1, Name: "a"}, {Id: 5, Name: "b"}, {Id: 3, Name: "b"}, {Id: 3, Name: "x"},
 	}
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	x2 := Stream(users).Filter(func(i User) bool { return true })
+	//.Slice()
+	x2.Slice().Reverse()
+	t.Log(x2)
 
-	var x = Stream([]int{1, 2, 3, 4}).Filter(func(i int) bool { return i > 2 }).
-		Map(func(i int) Value {
-			return i
-		}).Filter(func(i Value) bool { return i.(int) > 2 })
-
-	t.Log(x.IntList())
-	t.Log(x.StringList())
-	t.Log(Dump(x.IntList()))
-	t.Log(Dump(x.StringList()))
-	t.Log(x.String())
-
-	x2 := Stream(users).Filter(func(i User) bool { return i.Id > 0 }).
-		Map(func(i User) Value {
-			return i.Id
-		})
-
-	x3 := x2.StringGroup(func(u Value) string {
-		return fmt.Sprintf("val-%d", u)
-	}, func(u Value) any {
-		return u
-	})
-
-	t.Log(Stream(users).String())
-	t.Log(x2.String())
-	t.Log(Dump(x3), x3)
-
-	x4 := x2.IntGroup(func(u Value) int { return u.(int) }, func(u Value) any { return u })
-	t.Log(Dump(x4))
+	x2.Map(func(i User) any { return i }).Slice().Reverse()
+	t.Log(x2)
 
 }
