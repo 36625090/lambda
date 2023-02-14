@@ -24,13 +24,8 @@ func (p *personal) HashCode() int {
 	return p.age
 }
 
-func TestSlice_Sort(t *testing.T) {
-
-	a1 := NewSet[int64](1, 23, 4, 5, 5, 6, 9)
-	a2 := NewSet[int64](1, 23, 19)
-	a3 := a1.UnionAll(a2)
-	a1.Sorted()
-	a3.Sorted()
-	t.Log(a3, a1)
-
+func TestSlice(t *testing.T) {
+	a1 := Stream[int64]([]int64{1, 2, 3, 4}).Map(func(i int64) any { return int(i) }).Slice().Values()
+	t.Log(a1.([]int))
+	t.Log(len(a1.([]int)), cap(a1.([]int)))
 }

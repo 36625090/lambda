@@ -7,14 +7,34 @@
 package lambda
 
 import (
+	"encoding/json"
 	"log"
+	"reflect"
 	"sort"
 )
 
 type Slice[T any] []T
 
-func (m *Slice[T]) Values() interface{} {
-	return m
+func (m *Slice[T]) Values() any {
+	if len(*m) == 0 {
+		return nil
+	}
+
+	var slice = reflect.SliceOf(reflect.TypeOf((*m)[0]))
+	o := reflect.MakeSlice(slice, 0, 0)
+	var values []reflect.Value
+	for _, t := range *m {
+		values = append(values, reflect.ValueOf(t))
+	}
+	return reflect.Append(o, values...).Interface()
+}
+
+func (m *Slice[T]) Assignment(o any) error {
+	data, err := json.Marshal(m)
+	if err != nil {
+		return err
+	}
+	return json.Unmarshal(data, o)
 }
 
 func (m *Slice[T]) Filter(f func(i T) bool) *Slice[T] {

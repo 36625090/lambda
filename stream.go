@@ -60,8 +60,8 @@ func (l *stream[T]) Filter(f func(i T) bool) *stream[T] {
 	return &stream[T]{data: *l.data.Filter(f)}
 }
 
-func (l *stream[T]) Slice() Slice[T] {
-	return l.data
+func (l *stream[T]) Slice() *Slice[T] {
+	return &l.data
 }
 
 func (l *stream[T]) IntegerSlice() Slice[int] {
