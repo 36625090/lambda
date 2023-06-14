@@ -125,6 +125,9 @@ func (m *Slice[T]) Remove(values ...T) int {
 		}
 		total += 1
 	}
+	if len(*m) == 0 {
+		return 0
+	}
 	*m = (*m)[0 : len(*m)-total]
 	return total
 }
