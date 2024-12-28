@@ -132,3 +132,25 @@ func (l *stream[T]) String() string {
 	data, _ := json.Marshal(l.data)
 	return string(data)
 }
+
+func (l *stream[T]) SumInt(value func(i T) int) int {
+	i := 0
+	for _, data := range l.data {
+		i += value(data)
+	}
+	return i
+}
+func (l *stream[T]) SumInt64(value func(i T) int64) int64 {
+	var i int64 = 0
+	for _, data := range l.data {
+		i += value(data)
+	}
+	return i
+}
+func (l *stream[T]) SumFloat(value func(i T) float64) float64 {
+	i := 0.0
+	for _, data := range l.data {
+		i += value(data)
+	}
+	return i
+}
