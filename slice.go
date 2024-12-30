@@ -13,8 +13,12 @@ import (
 
 type Slice[T any] []T
 
-func (m *Slice[T]) Values() interface{} {
-	return m
+func (m *Slice[T]) Values() []T {
+	return *m
+}
+
+func (m *Slice[T]) Interface() any {
+	return *m
 }
 
 func (m *Slice[T]) Filter(f func(i T) bool) *Slice[T] {
@@ -204,7 +208,7 @@ func (m *Slice[T]) UnionAll(i *Slice[T]) *Slice[T] {
 	return &result
 }
 
-func (m *Slice[T]) Walk(f func(i T)) {
+func (m *Slice[T]) Foreach(f func(i T)) {
 	for _, t := range *m {
 		f(t)
 	}

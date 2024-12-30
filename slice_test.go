@@ -26,11 +26,23 @@ func (p *personal) HashCode() int {
 
 func TestSlice_Sort(t *testing.T) {
 
-	a1 := NewSet[int64](1, 23, 4, 5, 5, 6, 9)
+	a1 := NewSet[int64](1, 23, 4, 5, 5, 6, 9, 1, 2, 1, 1)
 	a2 := NewSet[int64](1, 23, 19)
 	a3 := a1.UnionAll(a2)
-	a1.Sorted()
+
 	a3.Sorted()
 	t.Log(a3, a1)
-
+	var a4 []int64 = a1.Slice().Values()
+	t.Log(a4)
+	values := []int{1, 2, 3, 3}
+	sm := Stream[float64](values)
+	data := sm.Map(func(i any) float64 {
+		return float64(i.(int)) / 0.3
+	}).Slice()
+	t.Log(data)
+	var out []int64
+	a1.Slice().Foreach(func(i int64) {
+		out = append(out, i)
+	})
+	t.Log(out)
 }

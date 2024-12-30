@@ -100,3 +100,6 @@ func (s *Set[T]) UnionAll(i *Set[T]) *Set[T] {
 func (s *Set[T]) Sort(cmp func(i T, j T) bool) {
 	((*Slice[T])(s)).Sort(cmp)
 }
+func (s *Set[T]) Slice() *Slice[T] {
+	return (*Slice[T])(s)
+}
