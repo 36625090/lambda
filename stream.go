@@ -13,11 +13,6 @@ import (
 	"sort"
 )
 
-// 定义一个只接受 int 类型的类型约束
-type IntConstraint interface {
-	int | int32 | ~int64 // 只接受 int, int32, int64 类型
-}
-
 type stream[T any] struct {
 	data Slice[any]
 	cmp  func(i, j any) bool
